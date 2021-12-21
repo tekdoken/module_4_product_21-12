@@ -2,7 +2,9 @@ package product.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -41,7 +43,8 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public String show(@PageableDefault(value = 2) Pageable pageable, Model model, String search) {
+    public String show(@PageableDefault(value = 3) Pageable pageable, Model model, String search) {
+        pageable= PageRequest.of(0, 3,  Sort.by("price").descending());
         Page<Product> productPage;
         if (search == null) {
             productPage = iProductService.findAll(pageable);
@@ -49,6 +52,28 @@ public class ProductController {
             productPage = iProductService.findByNameContaining(pageable, search);
             model.addAttribute("back", "back");
             model.addAttribute("search",search);
+        }
+        model.addAttribute("products", productPage);
+        return "list";
+    }
+    @GetMapping("sort/{idc}")
+    public String sort(@PageableDefault(value = 3) Pageable pageable, Model model, String search,@PathVariable Integer idc) {
+        Page<Product> productPage;
+        if (search == null) {
+            if (idc==1  ) {
+                pageable= PageRequest.of(0, 3,  Sort.by("price").descending());
+                productPage = iProductService.findAll(pageable);
+                model.addAttribute("idc",idc);
+            } else {
+                pageable= PageRequest.of(0, 3,  Sort.by("price").ascending());
+                productPage = iProductService.findAll(pageable);
+                model.addAttribute("idc",idc);
+            }
+        } else {
+            productPage = iProductService.findByNameContaining(pageable, search);
+            model.addAttribute("back", "back");
+            model.addAttribute("search",search);
+            model.addAttribute("idc",idc);
         }
         model.addAttribute("products", productPage);
         return "list";
