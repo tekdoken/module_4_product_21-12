@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import product.model.Category;
 
 @Repository
-public interface ICategoryRepository extends PagingAndSortingRepository<Category, Long> {
+public interface ICategoryRepository extends JpaRepository<Category, Long> {
     Page<Category> findAllByName(String name);
 
     Page<Category> findAllByNameOrderByName(String name);
