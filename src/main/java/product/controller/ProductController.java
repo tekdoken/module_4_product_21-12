@@ -59,13 +59,11 @@ public class ProductController {
     @GetMapping("sort/{idc}")
     public String sort(@PageableDefault(value = 3) Pageable pageable, Model model, String search, @PathVariable Integer idc) {
         Page<Product> productPage = null;
-
         if (idc == 1) {
             productPage = iProductService.findAllByOrderByPriceAsc(pageable);
         } else {
             productPage = iProductService.findAllByOrderByPriceDesc(pageable);
         }
-
         model.addAttribute("products", productPage);
         return "list";
     }
