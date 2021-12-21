@@ -48,4 +48,14 @@ iProductRepository.deleteById(id);
     public Iterable<Product> findAllByCategory(Category category) {
         return iProductRepository.findAllByCategory(category);
     }
+
+    @Override
+    public Page<Product> findAllByOrderByPriceDesc(Pageable pageable) {
+        return iProductRepository.findAllByOrderByPriceDesc(pageable);
+    }
+
+    @Override
+    public Page<Product> findAllByOrderByPriceAsc(Pageable pageable) {
+        return iProductRepository.findAllByOrderByPriceAsc(pageable);
+    }
 }

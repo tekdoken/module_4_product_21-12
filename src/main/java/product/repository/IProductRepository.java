@@ -11,4 +11,6 @@ import product.model.Product;
 public interface IProductRepository extends JpaRepository<Product,Long> {
     Iterable<Product> findAllByCategory(Category category);
     Page<Product> findByNameContaining(Pageable pageable, String name);
+    Page<Product> findAllByOrderByPriceDesc(Pageable pageable);
+    Page<Product> findAllByOrderByPriceAsc(Pageable pageable);
 }

@@ -44,37 +44,28 @@ public class ProductController {
 
     @GetMapping("")
     public String show(@PageableDefault(value = 3) Pageable pageable, Model model, String search) {
-        pageable= PageRequest.of(0, 3,  Sort.by("price").descending());
         Page<Product> productPage;
         if (search == null) {
             productPage = iProductService.findAll(pageable);
         } else {
             productPage = iProductService.findByNameContaining(pageable, search);
             model.addAttribute("back", "back");
-            model.addAttribute("search",search);
+            model.addAttribute("search", search);
         }
         model.addAttribute("products", productPage);
         return "list";
     }
+
     @GetMapping("sort/{idc}")
-    public String sort(@PageableDefault(value = 3) Pageable pageable, Model model, String search,@PathVariable Integer idc) {
-        Page<Product> productPage;
-        if (search == null) {
-            if (idc==1  ) {
-                pageable= PageRequest.of(0, 3,  Sort.by("price").descending());
-                productPage = iProductService.findAll(pageable);
-                model.addAttribute("idc",idc);
-            } else {
-                pageable= PageRequest.of(0, 3,  Sort.by("price").ascending());
-                productPage = iProductService.findAll(pageable);
-                model.addAttribute("idc",idc);
-            }
+    public String sort(@PageableDefault(value = 3) Pageable pageable, Model model, String search, @PathVariable Integer idc) {
+        Page<Product> productPage = null;
+
+        if (idc == 1) {
+            productPage = iProductService.findAllByOrderByPriceAsc(pageable);
         } else {
-            productPage = iProductService.findByNameContaining(pageable, search);
-            model.addAttribute("back", "back");
-            model.addAttribute("search",search);
-            model.addAttribute("idc",idc);
+            productPage = iProductService.findAllByOrderByPriceDesc(pageable);
         }
+
         model.addAttribute("products", productPage);
         return "list";
     }
@@ -86,13 +77,15 @@ public class ProductController {
         modelAndView.addObject("product", productOptional);
         return modelAndView;
     }
+
     @PostMapping("edit")
-    public String edit(Product product){
+    public String edit(Product product) {
         iProductService.save(product);
         return "redirect:/";
     }
+
     @GetMapping("delete/{id}")
-    public String delete(@PathVariable Long id){
+    public String delete(@PathVariable Long id) {
         iProductService.remote(id);
         return "redirect:/";
     }
