@@ -12,6 +12,19 @@ public class Category {
     @OneToMany(targetEntity = Product.class)
     private List<Product> productList;
 
+    public List<Product> getProductList() {
+        return productList;
+    }
+
+    public void setProductList(List<Product> productList) {
+        this.productList = productList;
+    }
+
+    public Category(String name, List<Product> productList) {
+        this.name = name;
+        this.productList = productList;
+    }
+
     public Long getId() {
         return id;
     }

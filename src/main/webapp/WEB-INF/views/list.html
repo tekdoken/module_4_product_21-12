@@ -1,10 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/create :: head">
 </head>
 <body>
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a href="create">
+            <button class="btn btn-primary">create product</button>
+        </a>
+        <th:block th:if="${back}==back">
+            <a href="/"><input type="button" value="List Product" class="btn btn-secondary"></a>
+        </th:block>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                Sort
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" th:href="@{/sort/2}">SortAsc</a></li>
+                <li><a class="dropdown-item" th:href="@{/sort/1}">SortDesc</a></li>
+            </ul>
+        </div>
 
+        <form class="d-flex">
+            <input name="search" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+<table class="table table-bordered">
+    <tr>
+        <td><h2>Id</h2></td>
+        <td><h2>Productname</h2></td>
+        <td><h2>Price</h2></td>
+        <td><h2>Category</h2></td>
+        <td><h2>Action</h2></td>
+    </tr>
+    <hr>
+    <th:block th:each="pro:${products}">
+        <tr>
+            <td th:text="${pro.id}"></td>
+            <td th:text="${pro.name}"></td>
+            <td th:text="${pro.price}"></td>
+            <td th:text="${pro.category.name}"></td>
+            <td><a th:href="@{/edit/__${pro.id}__}"><input type="button" value="edit"></a></td>
+            <td><a th:href="@{/delete/__${pro.id}__}"><input type="button" value="delete"></a></td>
+        </tr>
+    </th:block>
+</table>
+<a th:href="@{''(page=${products.number - 1},search=${search})}" th:if="${products.hasPrevious()}">Previous</a>
+<span th:text="${products.number + 1}"></span>/<span th:text="${products.totalPages}"></span>
+<a th:href="@{''(page=${products.number + 1},search=${search})}" th:if="${products.hasNext()}">Next</a>
 </body>
 </html>
