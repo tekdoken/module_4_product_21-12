@@ -8,6 +8,16 @@
         <a href="create">
             <button class="btn btn-primary">create product</button>
         </a>
+        <form action="/upload"  enctype="multipart/form-data" method="post">
+            <div class="row g-3 align-items-center">
+                <div class="col-auto">
+                    <input type="file" name="file" id="inputPassword6" class="form-control" aria-describedby="passwordHelpInline">
+                    <button class="btn btn-primary">UpLoad</button>
+                </div>
+            </div>
+        </form>
+
+
         <th:block th:if="${back}==back">
             <a href="/"><input type="button" value="List Product" class="btn btn-secondary"></a>
         </th:block>
@@ -43,8 +53,8 @@
             <td th:text="${pro.name}"></td>
             <td th:text="${pro.price}"></td>
             <td th:text="${pro.category.name}"></td>
-            <td><a th:href="@{/edit/__${pro.id}__}"><input type="button" value="edit"></a></td>
-            <td><a th:href="@{/delete/__${pro.id}__}"><input type="button" value="delete"></a></td>
+            <td><a th:href="@{/edit/__${pro.id}__}"><input type="button" value="edit"></a>
+            <a th:href="@{/delete/__${pro.id}__}"><input type="button" value="delete"></a></td>
         </tr>
     </th:block>
 </table>

@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import product.model.Category;
 import product.model.Product;
+import product.model.Upload;
 import product.service.ICategoryService;
 import product.service.IProductService;
+import product.service.UploadFileService;
 
+import java.io.IOException;
 import java.util.Optional;
 
 @Controller
@@ -54,6 +57,13 @@ public class ProductController {
         }
         model.addAttribute("products", productPage);
         return "list";
+    }
+
+    @PostMapping("upload")
+    public String upload(Upload upload) throws IOException {
+        UploadFileService uploadFileService = new UploadFileService();
+        uploadFileService.uploadFile(upload.getFile());
+        return "redirect:/";
     }
 
     @GetMapping("sort/{idc}")
