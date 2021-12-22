@@ -32,6 +32,7 @@ import product.service.CategoryService;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.util.Properties;
 
 @Configuration // đánh đấu đây là file cấu hình dự án Spring
@@ -49,13 +50,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    @Bean(name = "multipartResolver")
-    public CommonsMultipartResolver getResolver() {
-        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
-        resolver.setMaxUploadSizePerFile(5242880);
-        return resolver;
 
-    }
 
     //3 hàm tiếp theo cấu hình Thymleaf:
     @Bean
@@ -130,9 +125,16 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public void addFormatters(FormatterRegistry registry) {
         registry.addFormatter(new CategoryFormatter(applicationContext.getBean(CategoryService.class)));
     }
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("/assets/");
+        registry.addResourceHandler("/nhuanh/**") //đường dẫn ảo thay thế cho đường dẫn thật bên dưới (ngắn hơn)
+                .addResourceLocations("file:" + "D:\\image\\");
+    }
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver getResolver() throws IOException {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+        resolver.setMaxUploadSizePerFile(52428800); //kích thước tối đa
+        return resolver;
     }
 }

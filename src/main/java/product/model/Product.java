@@ -10,11 +10,27 @@ public class Product {
     @Column(length = 10000)
     private String name;
     private int price;
+    private String img;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public Product() {
+    }
+
+    public Product(String name, int price, String img, Category category) {
+        this.name = name;
+        this.price = price;
+        this.img = img;
+        this.category = category;
     }
 
     public Product(String name, int price) {
