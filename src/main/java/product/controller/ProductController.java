@@ -2,9 +2,7 @@ package product.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import product.model.Category;
 import product.model.Product;
-import product.model.Upload;
 import product.service.ICategoryService;
 import product.service.IProductService;
-import product.service.UploadFileService;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,7 +40,7 @@ public class ProductController {
 
     @PostMapping("create")
     public String create(Product product, @RequestParam MultipartFile image) {
-        String fileName= image.getOriginalFilename();
+        String fileName = image.getOriginalFilename();
         try {
             FileCopyUtils.copy(image.getBytes(),
                     new File("D:\\image\\" + fileName));
@@ -70,12 +66,6 @@ public class ProductController {
         return "list";
     }
 
-//    @PostMapping("upload")
-//    public String upload(Upload upload) throws IOException {
-//        UploadFileService uploadFileService = new UploadFileService();
-//        uploadFileService.uploadFile(upload.getFile());
-//        return "redirect:/";
-//    }
 
     @GetMapping("sort/{idc}")
     public String sort(@PageableDefault(value = 3) Pageable pageable, Model model, String search, @PathVariable Integer idc) {
@@ -98,7 +88,15 @@ public class ProductController {
     }
 
     @PostMapping("edit")
-    public String edit(Product product) {
+    public String edit(Product product,@RequestParam MultipartFile image) {
+        String fileName = image.getOriginalFilename();
+        try {
+            FileCopyUtils.copy(image.getBytes(),
+                    new File("D:\\image\\" + fileName));
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        product.setImg(fileName);
         iProductService.save(product);
         return "redirect:/";
     }

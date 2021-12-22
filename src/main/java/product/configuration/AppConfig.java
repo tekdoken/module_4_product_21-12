@@ -127,7 +127,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     }
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/nhuanh/**") //đường dẫn ảo thay thế cho đường dẫn thật bên dưới (ngắn hơn)
+        registry.addResourceHandler("/**") //đường dẫn ảo thay thế cho đường dẫn thật bên dưới (ngắn hơn)
                 .addResourceLocations("file:" + "D:\\image\\");
     }
 

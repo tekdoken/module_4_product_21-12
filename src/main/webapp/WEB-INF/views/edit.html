@@ -6,7 +6,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="/edit" method="post" th:object="${product}">
+<form action="/edit" method="post" th:object="${product}" enctype="multipart/form-data">
     <h1>Create Product</h1>
     <input th:type="hidden" type="text" class="form-control" th:field="*{id}">
     <div class="mb-3">
@@ -19,17 +19,20 @@
     </div>
 
 
-    <select th:field="*{category}"  class="form-select" aria-label="Disabled select example" >
-        <option th:text="${product.get().getCategory().getName()}" th:value="${product.get().getCategory().getId()}"></option>
+    <select th:field="*{category}" class="form-select" aria-label="Disabled select example">
+        <option th:text="${product.get().getCategory().getName()}"
+                th:value="${product.get().getCategory().getId()}"></option>
         <th:block th:each="category,index : ${categorys}">
             <th:block th:if="${product.get().getCategory().getId()}!=${category.getId()}">
-                <option  th:value="${category.getId()}"
-                         th:text="${category.getName()}">
+                <option th:value="${category.getId()}"
+                        th:text="${category.getName()}">
                 </option>
             </th:block>
 
         </th:block>
     </select>
+    <label>Image</label><input type="text" th:field="*{img}">
+    <input type="file" name="image"/>
     <hr>
     <button type="submit" class="btn btn-primary">Update</button>
     <a href="/"><input type="button" value="back" class="btn btn-secondary"></input></a>

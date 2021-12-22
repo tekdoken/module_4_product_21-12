@@ -45,7 +45,7 @@
         <tr>
             <td th:text="${pro.id}"></td>
             <td th:text="${pro.name}"></td>
-            <td><img width="50px" height="50px" th:src="@{'/nhuanh/'+${pro.img}}" alt="">
+            <td><img width="50px" height="50px" th:src="@{'/'+${pro.img}}" alt="">
             </td>
             <td th:text="${pro.price}"></td>
             <td th:text="${pro.category.name}"></td>
