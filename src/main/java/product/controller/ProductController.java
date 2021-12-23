@@ -7,6 +7,8 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,6 +17,7 @@ import product.model.Product;
 import product.service.ICategoryService;
 import product.service.IProductService;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -39,7 +42,10 @@ public class ProductController {
     }
 
     @PostMapping("create")
-    public String create(Product product, @RequestParam MultipartFile image) {
+    public String create(@Valid Product product, BindingResult bindingResult, @RequestParam MultipartFile image ) {
+       if (bindingResult.hasErrors()){
+           return "create";
+       }
         String fileName = image.getOriginalFilename();
         try {
             FileCopyUtils.copy(image.getBytes(),

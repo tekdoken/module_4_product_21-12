@@ -1,6 +1,8 @@
 package product.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Entity
 public class Product {
@@ -8,6 +10,8 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(length = 10000)
+    @NotBlank
+    @Pattern(regexp = "^\\S*(.+)+\\S*")
     private String name;
     private int price;
     private String img;
