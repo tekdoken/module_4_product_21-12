@@ -11,7 +11,7 @@ public class Product {
     private Long id;
     @Column(length = 10000)
     @NotBlank
-    @Pattern(regexp = "^\\S*(.+)+\\S*")
+    @Pattern(regexp = "^.+")
     private String name;
     private int price;
     private String img;
