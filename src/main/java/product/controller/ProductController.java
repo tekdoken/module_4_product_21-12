@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @PostMapping("create")
-    public String create(@Valid Product product, BindingResult bindingResult, @RequestParam MultipartFile image ) {
+    public String create(@Valid Product product, BindingResult bindingResult, @RequestParam MultipartFile image,String img  ) {
        if (bindingResult.hasErrors()){
            return "create";
        }
@@ -53,7 +53,10 @@ public class ProductController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        product.setImg(fileName);
+        if(fileName==""){
+            product.setImg(img);
+        }else {
+        product.setImg(fileName);}
         iProductService.save(product);
         return "redirect:/";
     }
@@ -104,7 +107,8 @@ public class ProductController {
         }
         if(fileName==""){
             product.setImg(img);
-        }else {        product.setImg(fileName);
+        }else {
+            product.setImg(fileName);
         }
         iProductService.save(product);
         return "redirect:/";
