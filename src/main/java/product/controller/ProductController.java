@@ -94,7 +94,7 @@ public class ProductController {
     }
 
     @PostMapping("edit")
-    public String edit(Product product,@RequestParam MultipartFile image) {
+    public String edit(Product product,@RequestParam MultipartFile image,String img) {
         String fileName = image.getOriginalFilename();
         try {
             FileCopyUtils.copy(image.getBytes(),
@@ -102,7 +102,10 @@ public class ProductController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        product.setImg(fileName);
+        if(fileName==""){
+            product.setImg(img);
+        }else {        product.setImg(fileName);
+        }
         iProductService.save(product);
         return "redirect:/";
     }
